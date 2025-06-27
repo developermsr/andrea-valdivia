@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Andrea Valvidia Torres - Asistente Administrativo Comercial</title>
+    <style>
+        /* --- Estilos Globales UX/UI Avanzados - "Extremadamente Hermoso V3.1" (Modernizado 2025) --- */
+        :root {
+            --color-dark-abyss: #0A0A0A;
+            --color-dark-primary: #101010;
+            --color-dark-secondary: #181818;
+            --color-light-primary: #F7F7F7;
+            --color-light-secondary: #D1D1D1;
+            --color-red-primary: #B71C1C;
+            --color-red-secondary: #D32F2F;
+            --color-red-glow: rgba(211, 47, 47, 0.25);
+            --color-red-highlight: #FF5252;
+
+            --font-primary: 'Satoshi', sans-serif;
+            --font-secondary: 'Bodoni Moda', serif;
+            
+            --transition-swift: all 0.25s cubic-bezier(0.645, 0.045, 0.355, 1);
+            --transition-smooth: all 0.5s cubic-bezier(0.77, 0, 0.175, 1);
+            --transition-entrance: all 0.8s cubic-bezier(0.165, 0.84, 0.44, 1);
+
+            --border-radius-soft: 20px;
+            --border-radius-crisp: 10px;
+            
+            --shadow-depth: 0 15px 50px rgba(0, 0, 0, 0.3), 0 5px 15px rgba(0,0,0,0.2);
+            --shadow-lifted: 0 8px 30px rgba(0, 0, 0, 0.2);
+            --shadow-glow-red: 0 0 30px 5px var(--color-red-glow);
+
+            --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+            --ease-in-out-circ: cubic-bezier(0.85, 0, 0.15, 1);
+            --header-height-initial: 90px;
+        }
+
+        @import url('https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400;6..96,700;6..96,900&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { 
+            scroll-behavior: smooth; 
+            font-size: 16px; 
+            scroll-padding-top: var(--header-height-initial); 
+        }
+        body {
+            font-family: var(--font-primary);
+            background-color: var(--color-dark-abyss);
+            color: var(--color-light-primary);
+            line-height: 1.75;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            opacity: 0;
+            transition: opacity 0.5s var(--ease-out-expo);
+        }
+        body.loaded { opacity: 1; }
+        body.no-scroll { overflow: hidden; }
+
+        .preloader {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: var(--color-dark-abyss);
+            display: flex; justify-content: center; align-items: center;
+            z-index: 9999;
+            transition: opacity 0.8s var(--ease-in-out-circ) 0.3s, visibility 0s linear 1.1s;
+        }
+        .preloader.hidden { opacity: 0; visibility: hidden; }
+        .preloader-logo {
+            font-family: var(--font-secondary); font-size: 3rem; color: var(--color-light-primary);
+            font-weight: 700; animation: pulse-logo 1.5s infinite ease-in-out;
+        }
+        .preloader-logo span { color: var(--color-red-primary); }
+        @keyframes pulse-logo {
+            0%, 100% { opacity: 0.7; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.05); }
+        }
+
+        .cursor {
+            width: 30px; height: 30px; border: 1px solid var(--color-red-secondary);
+            border-radius: 50%; position: fixed; transform: translate(-50%, -50%);
+            pointer-events: none; z-index: 10001;
+            transition: width 0.2s var(--ease-out-expo), height 0.2s var(--ease-out-expo), background-color 0.2s var(--ease-out-expo), border-color 0.2s var(--ease-out-expo), opacity 0.3s var(--ease-out-expo);
+            mix-blend-mode: difference; opacity: 0;
+        }
+        .cursor-dot {
+            width: 6px; height: 6px; background-color: var(--color-red-secondary);
+            border-radius: 50%; position: fixed; transform: translate(-50%, -50%);
+            pointer-events: none; z-index: 10002;
+            transition: transform 0.1s linear, opacity 0.3s var(--ease-out-expo); opacity: 0;
+        }
+        body:hover .cursor, body:hover .cursor-dot { opacity: 1; }
+        .cursor.hovered {
+            width: 50px; height: 50px; background-color: rgba(211, 47, 47, 0.2);
+            border-color: transparent;
+        }
+        .cursor.clicked { transform: translate(-50%, -50%) scale(0.8); background-color: rgba(211, 47, 47, 0.4); }
+        a, button, .service-item, .experience-item, [role="button"], [tabindex="0"]:not(body):not(html) { cursor: none; }
+
+        .scroll-progress-bar {
+            position: fixed; top: 0; left: 0; height: 4px;
+            background: linear-gradient(90deg, var(--color-red-primary), var(--color-red-highlight));
+            width: 0%; z-index: 10000; transition: width 0.1s linear;
+            box-shadow: 0 0 10px var(--color-red-glow);
+        }
+
+        .container { width: 90%; max-width: 1160px; margin: 0 auto; padding: 0 15px; }
+        .section { padding: 120px 0; overflow: hidden; position: relative; }
+
+        .section-title {
+            font-family: var(--font-secondary); font-size: clamp(2.8rem, 6vw, 4.5rem);
+            font-weight: 900; color: var(--color-light-primary); text-align: center;
+            margin-bottom: 30px; line-height: 1.15; position: relative;
+        }
+        .section-title span { color: var(--color-red-primary); }
+        .section-title::after {
+            content: ''; display: block; width: 0; height: 5px;
+            background: linear-gradient(90deg, var(--color-red-primary), var(--color-red-secondary));
+            margin: 25px auto 0; border-radius: 2.5px;
+            transition: width 1s 0.3s var(--ease-out-expo);
+        }
+        .section.is-visible .section-title::after { width: 90px; }
+        
+        .section-subtitle {
+            font-size: clamp(1.1rem, 2.5vw, 1.3rem); text-align: center;
+            color: var(--color-light-secondary); margin-bottom: 80px;
+            max-width: 800px; margin-left: auto; margin-right: auto;
+            font-weight: 300; line-height: 1.8;
+        }
+
+        .btn {
+            display: inline-block; padding: 18px 42px;
+            background: linear-gradient(45deg, var(--color-red-primary), var(--color-red-secondary));
+            color: var(--color-light-primary); text-decoration: none;
+            font-weight: 500; font-size: 1.05rem; border-radius: var(--border-radius-crisp);
+            transition: var(--transition-swift); border: none; position: relative;
+            overflow: hidden; z-index: 1;
+            box-shadow: 0 5px 20px rgba(183, 28, 28, 0.3), 0 0 0 0 rgba(211, 47, 47, 0.5);
+            -webkit-tap-highlight-color: transparent;
+        }
+        .btn:hover, .btn:focus-visible {
+            transform: translateY(-5px) scale(1.03);
+            box-shadow: 0 10px 30px rgba(183, 28, 28, 0.4), 0 0 0 0 rgba(211, 47, 47, 0.5);
+        }
+        .btn:active {
+            transform: translateY(-2px) scale(0.98);
+            box-shadow: 0 2px 10px rgba(183, 28, 28, 0.2), 0 0 0 0 rgba(211, 47, 47, 0.5);
+            animation: btn-ripple 0.4s linear forwards;
+        }
+        @keyframes btn-ripple { to { box-shadow: 0 5px 20px rgba(183, 28, 28, 0.3), 0 0 0 25px rgba(211, 47, 47, 0); } }
+        .btn-outline {
+            background: transparent; border: 2px solid var(--color-red-primary);
+            color: var(--color-red-primary); box-shadow: none;
+        }
+        .btn-outline:hover, .btn-outline:focus-visible {
+            background-color: var(--color-red-primary); color: var(--color-light-primary);
+            box-shadow: 0 8px 25px var(--color-red-glow);
+        }
+        .btn-outline:active { background-color: var(--color-red-secondary); transform: translateY(-2px) scale(0.98); }
+        :focus-visible {
+            outline: 3px solid var(--color-red-highlight); outline-offset: 4px;
+            box-shadow: 0 0 0 4px var(--color-dark-primary), 0 0 0 6px var(--color-red-highlight);
+            border-radius: var(--border-radius-crisp);
+        }
+        .main-header :focus-visible, .btn:focus-visible, .service-item:focus-visible, .experience-item:focus-visible { box-shadow: none; }
+        .main-nav a:focus-visible { outline-offset: 2px; color: var(--color-light-primary); }
+        .logo:focus-visible { outline: 2px solid var(--color-red-highlight); outline-offset: 3px; }
+
+        .main-header {
+            position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; padding: 28px 0;
+            background-color: rgba(10, 10, 10, 0.65); backdrop-filter: blur(15px) saturate(180%);
+            -webkit-backdrop-filter: blur(15px) saturate(180%);
+            border-bottom: 1px solid rgba(247, 247, 247, 0.05);
+            transition: padding 0.3s var(--ease-in-out-circ), background-color 0.3s var(--ease-in-out-circ), border-color 0.3s var(--ease-in-out-circ), box-shadow 0.3s var(--ease-in-out-circ);
+        }
+        .main-header.scrolled {
+            padding: 20px 0; background-color: rgba(10, 10, 10, 0.85);
+            border-bottom-color: rgba(247, 247, 247, 0.1);
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+        }
+        .main-header .container { display: flex; justify-content: space-between; align-items: center; }
+        .logo {
+            font-size: 2.2rem; font-weight: 700; color: var(--color-light-primary);
+            text-decoration: none; font-family: var(--font-secondary);
+            transition: opacity 0.3s var(--ease-out-expo);
+        }
+        .logo:hover { opacity: 0.85; }
+        .logo span { color: var(--color-red-primary); font-family: inherit; }
+        .main-nav ul { list-style: none; display: flex; }
+        .main-nav ul li { margin-left: 40px; }
+        .main-nav ul li a {
+            text-decoration: none; color: var(--color-light-secondary);
+            font-weight: 500; font-size: 1rem; padding: 10px 5px;
+            position: relative; transition: color 0.3s var(--ease-out-expo);
+        }
+        .main-nav ul li a::after {
+            content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+            width: 0; height: 2px;
+            background-color: var(--color-red-primary); border-radius: 1px;
+            transition: width 0.4s var(--ease-out-expo);
+        }
+        .main-nav ul li a:hover, .main-nav ul li a.active { color: var(--color-light-primary); }
+        .main-nav ul li a:hover::after, .main-nav ul li a.active::after { width: 100%; }
+        
+        .menu-toggle { 
+            display: none; background: none; border: none; padding: 10px; z-index: 1001;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .menu-toggle .bar { display: block; width: 28px; height: 3px; margin: 6px auto; background-color: var(--color-light-primary); border-radius: 1px; transition: all 0.3s ease-in-out; }
+        .menu-toggle.active .bar:nth-child(1) { transform: translateY(9px) rotate(45deg); }
+        .menu-toggle.active .bar:nth-child(2) { opacity: 0; }
+        .menu-toggle.active .bar:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
+
+        #hero {
+            min-height: 100vh; display: flex; align-items: center; justify-content: center;
+            text-align: center; background-color: var(--color-dark-abyss);
+            position: relative; overflow: hidden;
+        }
+        #hero-background-canvas {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0;
+            background: 
+                radial-gradient(ellipse at 70% 30%, var(--color-red-glow) 0%, transparent 50%),
+                radial-gradient(ellipse at 30% 70%, rgba(183,28,28,0.15) 0%, transparent 50%);
+            animation: subtle-gradient-shift 20s infinite alternate ease-in-out;
+        }
+        @keyframes subtle-gradient-shift {
+            0% { background-position: 0% 0%, 0% 0%; }
+            100% { background-position: 100% 100%, -100% -100%; }
+        }
+        .hero-content { max-width: 900px; position: relative; z-index: 1; margin-left: auto; margin-right: auto; }
+        .hero-content .sub-headline {
+            font-size: 1.1rem; color: var(--color-red-secondary); font-weight: 500;
+            text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px; display: block;
+        }
+        .hero-content h1 {
+            font-size: clamp(3.2rem, 7vw, 5.5rem); font-weight: 900;
+            margin-bottom: 30px; line-height: 1.1; font-family: var(--font-secondary);
+            color: var(--color-light-primary); text-shadow: 0 0 20px rgba(0,0,0,0.3);
+        }
+        .hero-content h1 .highlight-text {
+            background: linear-gradient(90deg, var(--color-red-highlight), var(--color-red-primary), var(--color-light-primary));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background-clip: text; 
+            background-size: 300% auto; animation: text-gradient-flow 6s linear infinite;
+        }
+        @keyframes text-gradient-flow { to { background-position: -300% center; } }
+        .hero-content p {
+            font-size: clamp(1.15rem, 3vw, 1.35rem); margin-bottom: 50px;
+            color: var(--color-light-secondary); font-weight: 300;
+        }
+        .hero-content > * {
+            opacity: 0; transform: translateY(40px);
+            animation: hero-element-fade-in 1s var(--ease-out-expo) forwards;
+        }
+        .hero-content .sub-headline { animation-delay: 0.3s; }
+        .hero-content h1 { animation-delay: 0.5s; }
+        .hero-content p { animation-delay: 0.7s; }
+        .hero-content .btn { animation-delay: 0.9s; }
+        @keyframes hero-element-fade-in { to { opacity: 1; transform: translateY(0); } }
+        
+        #competencias { background-color: var(--color-dark-primary); }
+        .services-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 40px;
+        }
+        .service-item {
+            background-color: var(--color-dark-secondary); padding: 45px 40px;
+            border-radius: var(--border-radius-soft); text-align: left;
+            box-shadow: var(--shadow-lifted);
+            transition: transform 0.4s var(--ease-out-expo), box-shadow 0.4s var(--ease-out-expo);
+            position: relative; overflow: hidden; border: 1px solid rgba(247, 247, 247, 0.05);
+            will-change: transform, box-shadow;
+        }
+        .service-item::after {
+            content: ""; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+            background: radial-gradient(circle, var(--color-red-glow) 0%, transparent 40%);
+            opacity: 0; transform: scale(0);
+            transition: opacity 0.6s var(--ease-out-expo), transform 0.6s var(--ease-out-expo);
+            z-index: 0;
+        }
+        .service-item:hover, .service-item:focus-visible {
+            transform: translateY(-15px) scale(1.02);
+            box-shadow: var(--shadow-depth), var(--shadow-glow-red);
+        }
+        .service-item:hover::after, .service-item:focus-visible::after { opacity: 0.7; transform: scale(1); }
+        .service-item .icon, .service-item h3, .service-item p { position: relative; z-index: 1; }
+        .service-item .icon {
+            font-size: 2.5rem; color: var(--color-red-primary); margin-bottom: 28px;
+            display: block; font-weight: 400;
+            transition: color 0.3s var(--ease-out-expo), transform 0.4s var(--ease-out-expo);
+        }
+        .service-item:hover .icon, .service-item:focus-visible .icon {
+            color: var(--color-red-highlight); transform: rotate(-10deg) scale(1.1);
+        }
+        .service-item h3 {
+            font-size: 1.8rem; margin-bottom: 18px; color: var(--color-light-primary);
+            font-weight: 500;
+        }
+        .service-item p {
+            font-size: 1rem; color: var(--color-light-secondary); font-weight: 300; line-height: 1.8;
+        }
+
+        #sobre-mi .container { display: flex; align-items: center; gap: 70px; }
+        .about-content { flex: 1.2; }
+        .about-content .section-title, .about-content .section-subtitle { text-align: left; margin-left:0; margin-right:0; }
+        .about-content .section-title::after { margin-left:0; }
+        .about-content p { margin-bottom: 28px; line-height: 1.9; font-weight: 300; color: var(--color-light-secondary); }
+        .about-image-container { flex: 1; position: relative; transform-style: preserve-3d; }
+        .about-image {
+            max-width: 100%; border-radius: var(--border-radius-soft);
+            box-shadow: var(--shadow-depth); overflow: hidden;
+            transform: perspective(1000px) rotateY(0deg) rotateX(0deg);
+            transition: transform 0.6s var(--ease-in-out-circ), box-shadow 0.6s var(--ease-in-out-circ);
+            will-change: transform, box-shadow;
+        }
+        .about-image img { width: 100%; display: block; transition: transform 0.8s var(--ease-out-expo); }
+        .about-image-container:hover .about-image {
+            box-shadow: 0 25px 60px rgba(0,0,0,0.4), var(--shadow-glow-red);
+        }
+        .about-image-container:hover .about-image img { transform: scale(1.05); }
+        
+        #experiencia-laboral { background-color: var(--color-dark-primary); }
+        .experience-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 35px; }
+        .experience-item {
+            background: var(--color-dark-secondary); padding: 35px 40px;
+            border-radius: var(--border-radius-soft); box-shadow: var(--shadow-lifted);
+            transition: var(--transition-smooth); border-left: 5px solid transparent; position: relative;
+            will-change: transform, box-shadow, border-left-color;
+        }
+        .experience-item::before {
+            content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            border-radius: inherit; border: 2px solid var(--color-red-primary);
+            clip-path: polygon(0 0, 0 0, 0 100%, 0 100%);
+            transition: clip-path 0.5s var(--ease-out-expo);
+            z-index: 0; pointer-events: none;
+        }
+        .experience-item:hover, .experience-item:focus-visible {
+            transform: translateY(-10px); box-shadow: var(--shadow-depth);
+            border-left-color: var(--color-red-primary);
+        }
+        .experience-item:hover::before, .experience-item:focus-visible::before { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); }
+        .experience-item > * { position: relative; z-index: 1; }
+        
+        .experience-item h4 { font-size: 1.5rem; margin-bottom: 5px; color: var(--color-light-primary); font-weight: 500; }
+        .experience-item .company-info {
+            display: block;
+            font-size: 1rem;
+            color: var(--color-red-secondary);
+            font-weight: 500;
+            margin-bottom: 20px;
+        }
+        .experience-item ul {
+            list-style: none;
+            padding-left: 0;
+            color: var(--color-light-secondary);
+            font-weight: 300;
+            font-size: 0.95rem;
+        }
+        .experience-item ul li {
+            margin-bottom: 12px;
+            padding-left: 25px;
+            position: relative;
+            line-height: 1.6;
+        }
+        .experience-item ul li::before {
+            content: '›';
+            position: absolute;
+            left: 0;
+            top: -2px;
+            font-size: 1.5rem;
+            color: var(--color-red-primary);
+            font-weight: bold;
+        }
+
+
+        #contacto {
+            background: linear-gradient(135deg, var(--color-red-primary) 0%, var(--color-dark-abyss) 70%, var(--color-dark-abyss) 100%);
+            color: var(--color-light-primary); text-align: center;
+        }
+        #contacto .section-title, #contacto .section-subtitle { color: var(--color-light-primary); }
+        #contacto .section-title::after { background: var(--color-light-primary); }
+        #contacto .btn {
+            background: var(--color-light-primary); color: var(--color-red-primary);
+            font-size: 1.2rem; padding: 20px 45px; box-shadow: 0 8px 25px rgba(0,0,0,0.25);
+        }
+        #contacto .btn:hover, #contacto .btn:focus-visible {
+            background-color: #fff;
+            box-shadow: 0 12px 35px rgba(0,0,0,0.35), 0 0 20px var(--color-red-glow);
+        }
+        .contact-info {
+            margin-bottom: 40px;
+            font-size: 1.2rem;
+            color: var(--color-light-secondary);
+        }
+        .contact-info a {
+            color: var(--color-light-primary);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .contact-info a:hover {
+            color: var(--color-red-highlight);
+        }
+
+
+        footer {
+            background-color: var(--color-dark-abyss); border-top: 1px solid rgba(247, 247, 247, 0.05);
+            color: var(--color-light-secondary); text-align: center;
+            padding: 60px 0; font-size: 0.95rem; font-weight: 300;
+        }
+        footer .logo { font-size: 1.8rem; margin-bottom: 20px; opacity: 0.8; }
+        footer p { margin-bottom: 10px; }
+        footer p a { color: var(--color-red-secondary); text-decoration: none; transition: color 0.3s var(--ease-out-expo); }
+        footer p a:hover, footer p a:focus-visible {
+            color: var(--color-red-highlight); text-decoration: underline; 
+        }
+
+        [data-reveal],
+        [data-reveal="stagger-parent"] > * {
+            opacity: 0;
+            transform: translateY(60px);
+            transition-property: opacity, transform;
+            transition-timing-function: var(--ease-out-expo);
+            will-change: opacity, transform;
+        }
+        [data-reveal] { transition-duration: 1s; }
+        [data-reveal="stagger-parent"] > * { transition-duration: 0.8s; }
+        [data-reveal].is-visible,
+        [data-reveal="stagger-parent"].is-visible > *,
+        .is-child-revealed {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @media (max-width: 992px) {
+            #sobre-mi .container { flex-direction: column; text-align: center; }
+            .about-content .section-title, .about-content .section-subtitle { text-align: center; }
+            .about-content .section-title::after { margin: 25px auto 0; }
+            .about-image-container { margin-top: 60px; max-width: 480px; }
+            .cursor, .cursor-dot { display: none !important; }
+            a, button, .service-item, .experience-item, [role="button"], [tabindex="0"]:not(body):not(html) { cursor: auto; }
+            html { scroll-padding-top: 70px; }
+        }
+        @media (max-width: 768px) {
+            .main-nav ul {
+                display: none; flex-direction: column; position: absolute;
+                top: 100%; left: 0; width: 100%;
+                background-color: var(--color-dark-secondary);
+                padding: 20px 0; box-shadow: 0 8px 15px rgba(0,0,0,0.3);
+                border-top: 1px solid rgba(247, 247, 247, 0.1);
+            }
+            .main-nav.active ul { display: flex; }
+            .main-nav ul li { margin: 12px 25px; text-align: center; }
+            .main-nav ul li a { display: block; padding: 12px; font-size: 1.1rem; }
+            .menu-toggle { display: block; }
+            .services-grid, .experience-grid { grid-template-columns: 1fr; }
+            .section { padding: 100px 0; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+            .hero-content > *, [data-reveal], [data-reveal="stagger-parent"] > * {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            .preloader { transition: opacity 0.01s, visibility 0s linear 0.01s; }
+        }
+
+    </style>
+</head>
+<body>
+    <div class="preloader">
+        <div class="preloader-logo">AV<span>.</span></div>
+    </div>
+
+    <div class="cursor"></div>
+    <div class="cursor-dot"></div>
+    <div class="scroll-progress-bar"></div>
+
+    <header class="main-header" id="mainHeader">
+        <div class="container">
+            <a href="#hero" class="logo" aria-label="Andrea Valvidia - Ir al inicio">AV<span>.</span></a>
+            <nav class="main-nav" id="mainNav" aria-label="Navegación principal">
+                <ul id="mainNavUl" role="menubar">
+                    <li role="none"><a href="#hero" class="active" role="menuitem" aria-current="page">Inicio</a></li>
+                    <li role="none"><a href="#competencias" role="menuitem">Competencias</a></li>
+                    <li role="none"><a href="#sobre-mi" role="menuitem">Sobre Mí</a></li>
+                    <li role="none"><a href="#experiencia-laboral" role="menuitem">Experiencia</a></li>
+                    <li role="none"><a href="#contacto" role="menuitem">Contacto</a></li>
+                </ul>
+            </nav>
+            <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú de navegación" aria-expanded="false" aria-controls="mainNavUl">
+                <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+            </button>
+        </div>
+    </header>
+
+    <main>
+        <section id="hero" aria-labelledby="hero-title">
+            <div id="hero-background-canvas" aria-hidden="true"></div>
+            <div class="container">
+                <div class="hero-content">
+                    <span class="sub-headline">Asistente Administrativo Comercial</span>
+                    <h1 id="hero-title">Andrea Valdivia Torres</span></h1>
+                    <p>Aporto estructura, soporte y una gestión proactiva para optimizar procesos, facilitar la labor de ventas y garantizar una experiencia de cliente excepcional.</p>
+                    <a href="#competencias" class="btn">Ver Mis Competencias</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="competencias" class="section" aria-labelledby="competencias-title">
+            <div class="container">
+                <h2 class="section-title" id="competencias-title" data-reveal>Competencias <span>Clave</span></h2>
+                <p class="section-subtitle" data-reveal data-reveal-delay="100">Mi perfil combina una sólida capacidad organizativa con un enfoque comercial, utilizando herramientas clave para impulsar la eficiencia.</p>
+                <div class="services-grid" data-reveal="stagger-parent" data-reveal-delay="200">
+                    <div class="service-item" tabindex="0">
+                        <div class="icon" aria-hidden="true">✧</div>
+                        <h3>Soporte Integral al Equipo Comercial</h3>
+                        <p>Asistencia proactiva al equipo de ventas: preparación de cotizaciones, seguimiento de propuestas, y gestión de la documentación necesaria para cerrar ciclos de venta.</p>
+                    </div>
+                    <div class="service-item" tabindex="0">
+                        <div class="icon" aria-hidden="true">↯</div>
+                        <h3>Gestión de CRM y Comunicación</h3>
+                        <p>Manejo avanzado de plataformas CRM para el registro y seguimiento de clientes. Canalizo la comunicación inicial y coordino reuniones y demostraciones de producto.</p>
+                    </div>
+                    <div class="service-item" tabindex="0">
+                        <div class="icon" aria-hidden="true">∆</div>
+                        <h3>Organización y Gestión de Datos</h3>
+                        <p>Dominio de Excel para la creación de reportes de ventas, seguimiento de KPIs y mantenimiento de bases de datos, garantizando información precisa y accesible.</p>
+                    </div>
+                    <div class="service-item" tabindex="0">
+                        <div class="icon" aria-hidden="true">⚘</div>
+                        <h3>Procesos Administrativos</h3>
+                        <p>Experiencia en la gestión de facturas, órdenes de compra y coordinación con áreas de finanzas y logística para asegurar un flujo de trabajo fluido y sin errores.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="sobre-mi" class="section" aria-labelledby="about-title">
+            <div class="container">
+                <div class="about-content" data-reveal="stagger-parent">
+                    <h2 class="section-title" id="about-title">Sobre <span>Mí</span></h2>
+                    <p class="section-subtitle">Soy el nexo que une la estrategia comercial con la ejecución administrativa.</p>
+                    <p>Me defino por mi atención al detalle y mi capacidad para anticipar las necesidades del equipo. Soy Andrea Valvidia, una profesional que encuentra satisfacción en crear orden y facilitar el trabajo de los demás. Mi objetivo es ser el punto de apoyo fiable que permite al equipo comercial enfocarse en lo que mejor sabe hacer: vender.</p>
+                    <p>Con una sólida base en administración y un claro entendimiento de los ciclos de venta, puedo gestionar múltiples tareas de forma simultánea, priorizando eficazmente para cumplir con los plazos y mantener a todos los stakeholders informados.</p>
+                    <a href="#contacto" class="btn btn-outline">Hablemos</a>
+                </div>
+                <div class="about-image-container" data-reveal data-reveal-delay="300" id="aboutImageContainer">
+                    <div class="about-image" id="aboutImage">
+                        <!-- REEMPLAZAR CON TU FOTO PROFESIONAL. USA UNA IMAGEN DE BUENA CALIDAD Y FORMATO VERTICAL O CUADRADO. -->
+                        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=688&q=80" alt="Retrato profesional de Andrea Valvidia Torres" loading="lazy">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="experiencia-laboral" class="section" aria-labelledby="experiencia-title">
+            <div class="container">
+                <h2 class="section-title" id="experiencia-title" data-reveal>Experiencia <span>Laboral</span></h2>
+                <p class="section-subtitle" data-reveal data-reveal-delay="100">Mi trayectoria profesional demuestra un crecimiento constante y la aplicación práctica de mis competencias en entornos comerciales dinámicos.</p>
+                <div class="experience-grid" data-reveal="stagger-parent" data-reveal-delay="200">
+                    <div class="experience-item" tabindex="0">
+                        <h4>Asistente Comercial</h4>
+                        <span class="company-info">Innovatech Solutions | Enero 2021 - Diciembre 2022</span>
+                        <ul>
+                            <li>Gestión y actualización diaria del CRM (HubSpot), asegurando la integridad de los datos de más de 500 cuentas activas.</li>
+                            <li>Elaboración de más de 30 cotizaciones y propuestas comerciales mensuales, logrando una reducción del 15% en el tiempo de respuesta.</li>
+                            <li>Coordinación de la agenda de 4 ejecutivos de ventas, optimizando rutas y programando reuniones clave con clientes.</li>
+                            <li>Generación de informes semanales de KPIs de ventas para la gerencia, utilizando Excel avanzado y tablas dinámicas.</li>
+                        </ul>
+                    </div>
+                    <div class="experience-item" tabindex="0">
+                        <h4>Asistente Administrativo Comercial</h4>
+                        <span class="company-info">Domy Properties | Mayo 2024 - Junio 2025</span>
+                        <ul>
+                            <li>Manejo del sistema de captacion de propiedades de la empresa</li>
+                            <li>Actualizacion de las propiedades en el sistema</li>
+                            <li>Interlocución directa con propietarios, compradores e inquilinos para resolver incidencias relacionadas con la gestión de inmuebles (mantenimiento, documentación, suministros), logrando un índice de satisfacción del 95%.</li>
+                            <li>Coordinación entre las partes (compradores, vendedores, notaría, gestoría) para agilizar y resolver contratiempos durante el proceso de compraventa, asegurando un cierre de operaciones exitoso y en plazo.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contacto" class="section" aria-labelledby="cta-title">
+            <div class="container" data-reveal>
+                <h2 class="section-title" id="cta-title">¿Listo/a para Fortalecer tu Equipo?</h2>
+                <p class="section-subtitle">Estoy lista para aportar valor y eficiencia a su equipo comercial. Contácteme para coordinar una entrevista.</p>
+                <div class="contact-info">
+                    <p>Email: <a href="mailto:valvidiatorres@gmail.com">valvidiatorres@gmail.com</a></p>
+                    <p>Teléfono: <a href="tel:922912231">922 912 231</a></p>
+                </div>
+                <a href="mailto:valvidiatorres@gmail.com" class="btn">Contactar por Correo</a>
+            </div>
+        </section>
+    </main>
+
+    <footer role="contentinfo">
+        <div class="container">
+            <a href="#hero" class="logo" aria-label="Andrea Valvidia - Ir al inicio">AV<span>.</span></a>
+            <p>© <span id="currentYear"></span> Andrea Katherine Valvidia Torres. Todos los derechos reservados.</p>
+            <p>Portafolio profesional diseñado con un enfoque en la eficiencia y el soporte estratégico.</p>
+        </div>
+    </footer>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // --- El código Javascript es idéntico al de la versión anterior y no requiere cambios. ---
+        // --- Se ha mantenido intacto para conservar toda la funcionalidad y animaciones. ---
+        const preloader = document.querySelector('.preloader');
+        const body = document.body;
+        const header = document.getElementById('mainHeader');
+        const menuToggle = document.getElementById('menuToggle');
+        const mainNav = document.getElementById('mainNav');
+        const mainNavUl = document.getElementById('mainNavUl');
+
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                preloader.classList.add('hidden');
+                body.classList.add('loaded');
+            }, 300);
+        });
+
+        const cursor = document.querySelector('.cursor');
+        const cursorDot = document.querySelector('.cursor-dot');
+        const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+
+        if (cursor && cursorDot && !isTouchDevice) {
+            body.style.cursor = 'none';
+            const interactiveElements = document.querySelectorAll('a, button, .service-item, .experience-item, [role="button"], [tabindex="0"]:not(body):not(html):not(main)');
+            let cursorX = 0, cursorY = 0, dotX = 0, dotY = 0;
+            const stiffness = 0.2, damping = 0.6;
+            let dotVelocityX = 0, dotVelocityY = 0;
+
+            document.addEventListener('mousemove', e => {
+                cursorX = e.clientX;
+                cursorY = e.clientY;
+                const targetX = e.clientX;
+                const targetY = e.clientY;
+                const forceX = (targetX - dotX) * stiffness;
+                const forceY = (targetY - dotY) * stiffness;
+                dotVelocityX = (dotVelocityX + forceX) * damping;
+                dotVelocityY = (dotVelocityY + forceY) * damping;
+                dotX += dotVelocityX;
+                dotY += dotVelocityY;
+                cursor.style.left = cursorX + 'px';
+                cursor.style.top = cursorY + 'px';
+                cursorDot.style.left = dotX + 'px';
+                cursorDot.style.top = dotY + 'px';
+            });
+
+            interactiveElements.forEach(el => {
+                el.addEventListener('mouseenter', () => cursor.classList.add('hovered'));
+                el.addEventListener('mouseleave', () => cursor.classList.remove('hovered'));
+                el.style.cursor = 'none';
+            });
+            document.addEventListener('mousedown', () => cursor.classList.add('clicked'));
+            document.addEventListener('mouseup', () => cursor.classList.remove('clicked'));
+        } else if (cursor && cursorDot) {
+            cursor.style.display = 'none';
+            cursorDot.style.display = 'none';
+        }
+
+        const scrollProgressBar = document.querySelector('.scroll-progress-bar');
+        if (scrollProgressBar) {
+            const updateScrollProgress = () => {
+                const scrollTop = window.scrollY || document.documentElement.scrollTop;
+                const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                const progress = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
+                scrollProgressBar.style.width = progress + '%';
+            };
+            window.addEventListener('scroll', updateScrollProgress, { passive: true });
+            updateScrollProgress();
+        }
+        
+        if (header) {
+            const onScroll = () => {
+                header.classList.toggle('scrolled', window.scrollY > 50);
+            };
+            window.addEventListener('scroll', onScroll, { passive: true });
+            onScroll();
+        }
+
+        if(menuToggle && mainNav && mainNavUl){
+            const navLinks = mainNavUl.querySelectorAll('a');
+            menuToggle.addEventListener('click', () => {
+                const isActive = mainNav.classList.toggle('active');
+                menuToggle.classList.toggle('active', isActive);
+                menuToggle.setAttribute('aria-expanded', isActive.toString());
+                menuToggle.setAttribute('aria-label', isActive ? 'Cerrar menú' : 'Abrir menú');
+                body.classList.toggle('no-scroll', isActive);
+            });
+            navLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    if (mainNav.classList.contains('active')) {
+                        mainNav.classList.remove('active');
+                        menuToggle.classList.remove('active');
+                        menuToggle.setAttribute('aria-expanded', 'false');
+                        menuToggle.setAttribute('aria-label', 'Abrir menú');
+                        body.classList.remove('no-scroll');
+                    }
+                });
+            });
+        }
+        
+        const sections = document.querySelectorAll('section[id]');
+        const mainNavLinks = mainNavUl ? Array.from(mainNavUl.querySelectorAll('a[href^="#"]')) : [];
+
+        if (sections.length > 0 && mainNavLinks.length > 0 && header) {
+            const updateActiveNavLink = () => {
+                let currentSectionId = '';
+                const offset = (header.offsetHeight || 90) + 20;
+
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop - offset;
+                    if (window.scrollY >= sectionTop) {
+                        currentSectionId = section.getAttribute('id');
+                    }
+                });
+
+                mainNavLinks.forEach(a => {
+                    a.classList.remove('active');
+                    a.removeAttribute('aria-current');
+                    if (a.getAttribute('href').substring(1) === currentSectionId) {
+                        a.classList.add('active');
+                        a.setAttribute('aria-current', 'page');
+                    }
+                });
+                if (!currentSectionId && mainNavLinks[0] && mainNavLinks[0].getAttribute('href') === '#hero') {
+                     if (window.scrollY < sections[0].offsetTop - offset) {
+                        mainNavLinks[0].classList.add('active');
+                        mainNavLinks[0].setAttribute('aria-current', 'page');
+                     }
+                }
+            };
+            window.addEventListener('scroll', updateActiveNavLink, { passive: true });
+            updateActiveNavLink();
+        }
+
+        const revealElements = document.querySelectorAll('[data-reveal], [data-reveal="stagger-parent"]');
+        if (revealElements.length > 0) {
+            const revealObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const el = entry.target;
+                        const delay = parseInt(el.dataset.revealDelay) || 0;
+                        
+                        setTimeout(() => {
+                            el.classList.add('is-visible');
+                            if (el.dataset.reveal === 'stagger-parent') {
+                                const children = Array.from(el.children);
+                                children.forEach((child, i) => {
+                                    if (!child.hasAttribute('data-reveal')) {
+                                        child.style.transitionDelay = (i * 150) + 'ms';
+                                        child.classList.add('is-visible');
+                                    }
+                                });
+                            }
+                        }, delay);
+                         observer.unobserve(el);
+                    }
+                });
+            }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+            revealElements.forEach(el => revealObserver.observe(el));
+        }
+
+        const aboutImageContainer = document.getElementById('aboutImageContainer');
+        const aboutImage = document.getElementById('aboutImage');
+        if (aboutImageContainer && aboutImage && !isTouchDevice) {
+            aboutImageContainer.addEventListener('mousemove', (e) => {
+                const rect = aboutImageContainer.getBoundingClientRect();
+                const x = e.clientX - rect.left, y = e.clientY - rect.top;
+                const centerX = rect.width / 2, centerY = rect.height / 2;
+                const rotateX = (y - centerY) * -0.015; 
+                const rotateY = (x - centerX) * 0.03;  
+                aboutImage.style.transform = `perspective(1500px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.03)`;
+            });
+            aboutImageContainer.addEventListener('mouseleave', () => {
+                aboutImage.style.transform = 'perspective(1500px) rotateX(0deg) rotateY(0deg) scale(1)';
+            });
+        }
+        
+        const currentYearEl = document.getElementById('currentYear');
+        if(currentYearEl) currentYearEl.textContent = new Date().getFullYear();
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const href = this.getAttribute('href');
+                if (href === '#' || href === '#0') {
+                    e.preventDefault();
+                    return;
+                }
+                const targetElement = document.querySelector(href);
+                if (targetElement) {
+                    e.preventDefault();
+                    const headerOffset = header ? header.offsetHeight : 90;
+                    const elementPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
+                    const offsetPosition = elementPosition - headerOffset - 10;
+                    
+                    window.scrollTo({ top: offsetPosition, behavior: "smooth" });
+                }
+            });
+        });
+    });
+    </script>
+</body>
+</html>
